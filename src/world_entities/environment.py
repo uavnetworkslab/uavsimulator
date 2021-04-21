@@ -1,5 +1,6 @@
 
 from src.utilities.utilities import log, is_segments_intersect, distance_point_segment, TraversedCells
+from src.world_entities.target import Target
 
 import numpy as np
 
@@ -16,6 +17,7 @@ class Environment:
         # set events, set obstacles
         self.events: list = []  # even expired ones
         self.obstacles = []
+        self.targets = []
 
     def add_drones(self, drones: list):
         """ add a list of drones in the env """
@@ -56,6 +58,11 @@ class Environment:
             endx, endy = startx + length * np.cos(np.radians(angle)), starty + length * np.sin(np.radians(angle))
             obstacle = (startx, starty, endx, endy)
             self.obstacles.append(obstacle)
+
+    def spawn_targets(self, target_coord):
+        """ Spawns target that have infinite tolerance. """
+        for i, coords in enumerate(target_coord):
+            self.targets.append(Target(i, coords, self.simulator.simulation_duration_sec(), self.simulator))
 
     def detect_collision(self, drone):
         """ Detects a collision happened in the previous step. """

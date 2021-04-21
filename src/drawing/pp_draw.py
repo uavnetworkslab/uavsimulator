@@ -182,6 +182,14 @@ class PathPlanningDrawer:
         stddraw.setPenColor(c=stddraw.BLACK)
         stddraw.text(depot.coords[0], depot.coords[1]+100, "pk: " + str(len(depot.buffer)))
 
+    def draw_target(self, target_coords):
+        for i, (startx, starty) in enumerate(target_coords):
+            stddraw.setPenColor(c=stddraw.BOOK_LIGHT_BLUE)
+            stddraw.filledSquare(startx, starty, 10)
+            stddraw.text(startx, starty + 25, "tar id:{}".format(i))
+
+        self.__reset_pen()
+
     def __draw_sensing_range(self, body):
         stddraw.setPenRadius(0.0015)
         stddraw.setPenColor(c=stddraw.RED)

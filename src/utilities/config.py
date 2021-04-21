@@ -54,3 +54,5 @@ DRAW_SIZE = 700       # int: size of the drawing window
 
 SAVE_PLOT = False              # bool: whether to save the plots of the simulation or not
 SAVE_PLOT_DIR = "data/plots/"  # string: where to save plots
+
+TARGETS_COORDS = [(750, 750)]

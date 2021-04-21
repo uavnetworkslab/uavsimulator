@@ -31,6 +31,7 @@ class Simulator:
                  bs_coords=config.BASE_STATION_COORDS,
                  n_obstacles=config.N_OBSTACLES,
                  n_grid_cells=config.N_GRID_CELLS,
+                 target_coods=config.TARGETS_COORDS
                  ):
 
         self.cur_step = 0
@@ -54,11 +55,15 @@ class Simulator:
         self.drone_radar_range_meters = drone_radar_range_meters
         self.bs_com_range_meters = bs_com_range_meters
         self.bs_coords = bs_coords
+        self.target_coods = target_coods
 
         # create the world entites
         self.__set_randomness()
         self.__create_world_entities()
         self.__setup_plotting()
+
+    def simulation_duration_sec(self):
+        return self.sim_duration_ts * self.ts_duration_sec
 
     def simulation_name(self):
         return "seed{}-ndrones{}-date{}".format(self.sim_seed, self.n_drones, current_date())
@@ -119,6 +124,7 @@ class Simulator:
 
         self.environment = Environment(self.env_width_meters, self.env_height_meters, self)
         self.environment.spawn_obstacles()
+        self.environment.spawn_targets(self.target_coods)
 
         base_stations = [BaseStation(self.bs_coords, self.bs_com_range_meters, self)]
 
@@ -163,6 +169,7 @@ class Simulator:
 
         self.draw_manager.draw_simulation_info(cur_step=cur_step, max_steps=self.sim_duration_ts)
         self.draw_manager.draw_obstacles()
+        self.draw_manager.draw_target(self.target_coods)
         self.draw_manager.update(save=config.SAVE_PLOT, filename=self.simulation_name() + str(cur_step) + ".png")
 
     def run(self):
